@@ -418,6 +418,11 @@ export class DynamicForm extends React.Component<
             shouldBeReturnBack = true;
           }
         }
+
+        // Ignore fileleafref field
+        if (field.columnInternalName === "FileLeafRef") {
+          shouldBeReturnBack = false;
+        }
       });
 
       // Perform validation

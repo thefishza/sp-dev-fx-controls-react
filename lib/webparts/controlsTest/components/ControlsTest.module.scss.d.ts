@@ -1,0 +1,34 @@
+declare const styles: {
+    controlsTest: string;
+    instruction: string;
+    'ms-motion-slideLeftIn': string;
+    'ms-motion-fadeIn': string;
+    'ms-motion-slideRightIn': string;
+    container: string;
+    toggleFilter: string;
+    controlFiltersContainer: string;
+    row: string;
+    listItem: string;
+    button: string;
+    label: string;
+    siteBreadcrumb: string;
+    carouselContent: string;
+    carouselButtonsContainer: string;
+    carouselImageContent: string;
+    listViewWrapper: string;
+    dialogContainer: string;
+    dialogContent: string;
+    dialogFooter: string;
+    loader: string;
+    'ms-motion-fadeOut': string;
+    'ms-motion-scaleDownIn': string;
+    'ms-motion-scaleDownOut': string;
+    'ms-motion-slideLeftOut': string;
+    'ms-motion-slideRightOut': string;
+    'ms-motion-slideUpOut': string;
+    'ms-motion-slideDownOut': string;
+    'ms-motion-slideUpIn': string;
+    'ms-motion-slideDownIn': string;
+};
+export default styles;
+//# sourceMappingURL=ControlsTest.module.scss.d.ts.map

@@ -44,7 +44,6 @@ import { IDynamicFormState } from "./IDynamicFormState";
 import { Icon } from "@fluentui/react/lib/Icon";
 
 const stackTokens: IStackTokens = { childrenGap: 20 };
-const test = 123;
 /**
  * DynamicForm Class Control
  */
@@ -383,7 +382,7 @@ export class DynamicForm extends React.Component<
       fields.forEach((field) => {
         // When a field is required and has no value
         if (field.required) {
-          if (field.newValue === null) {
+          if (field.newValue === undefined && field.value === undefined) {
             if (
               field.defaultValue === null ||
               field.defaultValue === "" ||

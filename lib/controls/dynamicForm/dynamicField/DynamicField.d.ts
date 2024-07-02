@@ -1,8 +1,8 @@
-import '@pnp/sp/folders';
-import '@pnp/sp/webs';
-import * as React from 'react';
-import { IDynamicFieldProps } from './IDynamicFieldProps';
-import { IDynamicFieldState } from './IDynamicFieldState';
+import "@pnp/sp/folders";
+import "@pnp/sp/webs";
+import * as React from "react";
+import { IDynamicFieldProps } from "./IDynamicFieldProps";
+import { IDynamicFieldState } from "./IDynamicFieldState";
 export declare class DynamicField extends React.Component<IDynamicFieldProps, IDynamicFieldState> {
     constructor(props: IDynamicFieldProps);
     componentDidUpdate(): void;

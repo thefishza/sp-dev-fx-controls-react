@@ -497,7 +497,7 @@ export class DynamicField extends React.Component<
           </div>
         );
 
-      case "Boolean":
+      case "Boolean": 
         return (
           <div>
             <div className={styles.titleContainer}>
@@ -509,8 +509,8 @@ export class DynamicField extends React.Component<
             </div>
             <Toggle
               className={styles.fieldDisplay}
-              defaultChecked={defaultValue}
-              checked={valueToDisplay}
+              {/* defaultChecked={defaultValue} */}
+              checked={valueToDisplay !== undefined ? valueToDisplay : defaultValue}
               onText={strings.Yes}
               offText={strings.No}
               onChange={(e, checkedvalue) => {

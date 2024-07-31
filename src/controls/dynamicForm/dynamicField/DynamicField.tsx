@@ -510,9 +510,7 @@ export class DynamicField extends React.Component<
             <Toggle
               className={styles.fieldDisplay}
               defaultChecked={defaultValue}
-              checked={
-                valueToDisplay !== undefined ? valueToDisplay : defaultValue
-              }
+              checked={valueToDisplay}
               onText={strings.Yes}
               offText={strings.No}
               onChange={(e, checkedvalue) => {

@@ -1437,6 +1437,13 @@ export class DynamicForm extends React.Component<
           if (value) value = JSON.parse(value);
         }
         if (field.FieldType === "Boolean") {
+          if (
+            item !== null &&
+            (item[field.InternalName] === true ||
+              item[field.InternalName] === false)
+          )
+            value = Boolean(item[field.InternalName]);
+
           if (defaultValue !== undefined && defaultValue !== null)
             defaultValue = Boolean(Number(defaultValue));
           if (value !== undefined && value !== null)

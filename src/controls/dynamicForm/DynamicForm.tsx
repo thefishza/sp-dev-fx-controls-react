@@ -1378,8 +1378,19 @@ export class DynamicForm extends React.Component<
           hiddenName = field.HiddenListInternalName;
           termSetId = field.TermSetId;
           anchorId = field.AnchorId;
-          if (item && item[field.InternalName]) {
-            item[field.InternalName].forEach((element) => {
+          let taxonomyMultiValuesList = [];
+          if (item) {
+            // Check if is array
+            if (Array.isArray(item[field.InternalName])) {
+              taxonomyMultiValuesList = item[field.InternalName] || [];
+            }
+            // Fallback to when it is not an array but an object with results array
+            else {
+              taxonomyMultiValuesList = item[field.InternalName]?.results || [];
+            }
+          }
+          if (item && taxonomyMultiValuesList.length > 0) {
+            taxonomyMultiValuesList.forEach((element) => {
               selectedTags.push({
                 key: element.TermGuid,
                 name: element.Label,

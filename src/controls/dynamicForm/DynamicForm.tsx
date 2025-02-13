@@ -419,8 +419,19 @@ export class DynamicForm extends React.Component<
           }
         }
 
-        // Ignore fileleafref field
+        if (field.columnInternalName === "Currency") {
+          // test if value contains A-z
+          if (
+            field.newValue !== undefined &&
+            field.newValue !== null &&
+            field.newValue.match(/[a-z]/i)
+          ) {
+            shouldBeReturnBack = true;
+          }
+        }
+
         if (field.columnInternalName === "FileLeafRef") {
+          // Ignore fileleafref field
           shouldBeReturnBack = false;
         }
       });
@@ -574,6 +585,9 @@ export class DynamicForm extends React.Component<
             } else {
               objects[fieldcolumnInternalName] = null;
             }
+          }
+          if (fieldType === "Currency") {
+            objects[fieldcolumnInternalName] = field.newValue || null;
           }
         }
       }

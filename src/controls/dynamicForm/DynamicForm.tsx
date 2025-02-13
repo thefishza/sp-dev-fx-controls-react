@@ -382,7 +382,10 @@ export class DynamicForm extends React.Component<
       fields.forEach((field) => {
         // When a field is required and has no value
         if (field.required) {
-          if (field.newValue === undefined && field.value === undefined) {
+          if (
+            field.newValue === undefined &&
+            (field.value === undefined || field.value === null)
+          ) {
             if (
               field.defaultValue === null ||
               field.defaultValue === "" ||
@@ -419,7 +422,7 @@ export class DynamicForm extends React.Component<
           }
         }
 
-        if (field.columnInternalName === "Currency") {
+        if (field.fieldType === "Currency") {
           // test if value contains A-z
           if (
             field.newValue !== undefined &&

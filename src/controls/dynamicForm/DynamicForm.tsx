@@ -512,7 +512,7 @@ export class DynamicForm extends React.Component<
               "TaxonomyFieldTypeMulti",
             ].indexOf(fieldType) < 0
           ) {
-            objects[columnInternalName] = value;
+            objects[fieldcolumnInternalName] = value;
           }
 
           // Choice fields

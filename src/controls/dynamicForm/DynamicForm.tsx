@@ -1406,6 +1406,10 @@ export class DynamicForm extends React.Component<
               taxonomyMultiValuesList = item[field.InternalName]?.results || [];
             }
           }
+
+          // If the item is null and the field is empty, set value to undefined
+          if (item && taxonomyMultiValuesList.length === 0) value = undefined;
+
           if (item && taxonomyMultiValuesList.length > 0) {
             taxonomyMultiValuesList.forEach((element) => {
               selectedTags.push({

@@ -1118,9 +1118,20 @@ export class DynamicForm extends React.Component<
         const customFormatInfo = JSON.parse(
           listInfo.ClientFormCustomFormatter[contentTypeId]
         ) as ICustomFormatting;
-        bodySections = customFormatInfo.bodyJSONFormatter.sections;
-        headerJSON = customFormatInfo.headerJSONFormatter;
-        footerJSON = customFormatInfo.footerJSONFormatter;
+
+        if (customFormatInfo.headerJSONFormatter) {
+          headerJSON = customFormatInfo.headerJSONFormatter;
+        }
+
+        if (customFormatInfo.footerJSONFormatter) {
+          footerJSON = customFormatInfo.footerJSONFormatter;
+        }
+
+        if (customFormatInfo.bodyJSONFormatter) {
+          if (customFormatInfo.bodyJSONFormatter.sections) {
+            bodySections = customFormatInfo.bodyJSONFormatter.sections;
+          }
+        }
       }
 
       // Load SharePoint list item

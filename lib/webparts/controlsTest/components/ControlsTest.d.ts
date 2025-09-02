@@ -39,9 +39,9 @@ export default class ControlsTest extends React.Component<IControlsTestProps, IC
      */
     private _getSelection;
     /**
-    * Method that retrieves files from drag and drop
-    * @param files
-    */
+     * Method that retrieves files from drag and drop
+     * @param files
+     */
     private _getDropFiles;
     /**
      *

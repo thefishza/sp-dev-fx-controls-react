@@ -986,7 +986,7 @@ export class DynamicField extends React.Component<
     try {
       let selectedItemArr;
       const value = this.props.value || this.props.defaultValue;
-      if (changedValue === null && value !== null) {
+      if ((changedValue === "" || changedValue === null) && value !== null) {
         selectedItemArr = [];
         value.forEach((element) => {
           selectedItemArr.push(element);

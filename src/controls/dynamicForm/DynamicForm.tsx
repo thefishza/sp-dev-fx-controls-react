@@ -1281,6 +1281,13 @@ export class DynamicForm extends React.Component<
           field.MultiChoices.forEach((element) => {
             choices.push({ key: element, text: element });
           });
+          let currentValue = item[fieldName];
+          if (currentValue?.results) {
+            currentValue = currentValue.results;
+          }
+
+          value = currentValue;
+          stringValue = value ? value.toString() : "";
         }
 
         // Setup Note, Number and Currency fields

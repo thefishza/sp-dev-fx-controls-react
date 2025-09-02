@@ -1281,7 +1281,7 @@ export class DynamicForm extends React.Component<
           field.MultiChoices.forEach((element) => {
             choices.push({ key: element, text: element });
           });
-          let currentValue = item[fieldName];
+          let currentValue = item ? item[fieldName] : null;
           if (currentValue?.results) {
             currentValue = currentValue.results;
           }

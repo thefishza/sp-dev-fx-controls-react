@@ -2316,10 +2316,10 @@ export default class ControlsTest extends React.Component<
                 },
               ]}
               onMoveNextClicked={(index: number) => {
-                console.log(`Next button clicked: ${index}`);
+                /*  console.log(`Next button clicked: ${index}`); */
               }}
               onMovePrevClicked={(index: number) => {
-                console.log(`Prev button clicked: ${index}`);
+                /* console.log(`Prev button clicked: ${index}`); */
               }}
               rootStyles={mergeStyles({
                 backgroundColor: "#C3C3C3",

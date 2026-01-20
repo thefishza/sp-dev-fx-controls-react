@@ -1,8 +1,8 @@
-import { BaseComponentContext } from '@microsoft/sp-component-base';
-import { IItem } from '@pnp/sp/items';
-import React from 'react';
-import { IDynamicFieldProps } from './dynamicField';
-import { IValidationErrorDialogProps } from './IValidationErrorDialogProps';
+import { BaseComponentContext } from "@microsoft/sp-component-base";
+import { IItem } from "@pnp/sp/items";
+import React from "react";
+import { IDynamicFieldProps } from "./dynamicField";
+import { IValidationErrorDialogProps } from "./IValidationErrorDialogProps";
 export interface IDynamicFormProps {
     /**
      * Current context
@@ -108,5 +108,20 @@ export interface IDynamicFormProps {
     customIcons?: {
         [columnInternalName: string]: string;
     };
+    /**
+     * Custom styles for the button container
+     * This style will be applied to the container that holds the Save and Cancel buttons.
+     */
+    buttonContainerStyle?: React.CSSProperties;
+    /**
+     * Save button label. Default - "Save"
+     * This label will be used on the submit button of the form.
+     */
+    saveButtonLabel?: string;
+    /**
+     * Cancel button label. Default - "Cancel"
+     * This label will be used on the cancel button of the form.
+     */
+    cancelButtonLabel?: string;
 }
 //# sourceMappingURL=IDynamicFormProps.d.ts.map

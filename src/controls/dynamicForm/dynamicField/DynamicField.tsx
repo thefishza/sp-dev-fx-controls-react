@@ -128,11 +128,12 @@ export class DynamicField extends React.Component<
         {label}
       </label>
     );
-    const errorText =
-      this.props.validationErrorMessage || this.getRequiredErrorText();
-    const errorTextEl = (
+    const errorText = this.props.isSaveButtonClicked
+      ? this.props.validationErrorMessage || this.getRequiredErrorText()
+      : "";
+    const errorTextEl = this.props.isSaveButtonClicked ? (
       <text className={styles.errormessage}>{errorText}</text>
-    );
+    ) : null;
     const descriptionEl = (
       <text className={styles.fieldDescription}>{description}</text>
     );
@@ -414,7 +415,9 @@ export class DynamicField extends React.Component<
         );
       }
       case "Currency": {
-        const customNumberErrorMessage = this.getNumberErrorText();
+        const customNumberErrorMessage = this.props.isSaveButtonClicked
+          ? this.getNumberErrorText()
+          : "";
 
         return (
           <div>
@@ -460,7 +463,7 @@ export class DynamicField extends React.Component<
                 className={styles.pickersContainer}
                 formatDate={(date) => {
                   return date.toLocaleDateString(
-                    context.pageContext.cultureInfo.currentCultureName
+                    context.pageContext.cultureInfo.currentCultureName,
                   );
                 }}
                 value={
@@ -479,7 +482,7 @@ export class DynamicField extends React.Component<
                 placeholder={placeholder}
                 formatDate={(date) => {
                   return date.toLocaleDateString(
-                    context.pageContext.cultureInfo.currentCultureName
+                    context.pageContext.cultureInfo.currentCultureName,
                   );
                 }}
                 value={
@@ -528,8 +531,8 @@ export class DynamicField extends React.Component<
         const userValue = Boolean(changedValue)
           ? changedValue.map((cv) => cv.secondaryText)
           : value
-          ? value
-          : defaultValue;
+            ? value
+            : defaultValue;
         return (
           <div>
             <div className={styles.titleContainer}>
@@ -841,7 +844,7 @@ export class DynamicField extends React.Component<
     this.props.onChanged(
       this.props.columnInternalName,
       this.state.changedValue,
-      true
+      true,
     );
   };
 
@@ -953,18 +956,18 @@ export class DynamicField extends React.Component<
       ) {
         return strings.DynamicFormNumberValueMustBeBetween.replace(
           "{0}",
-          minValueCur ?? minValue.toString()
+          minValueCur ?? minValue.toString(),
         ).replace("{1}", maxValueCur ?? maxValue.toString());
       } else {
         if (minValue !== undefined && numericValue < minValue) {
           return strings.DynamicFormNumberValueMustBeGreaterThan.replace(
             "{0}",
-            minValueCur ?? minValue.toString()
+            minValueCur ?? minValue.toString(),
           );
         } else if (maxValue !== undefined && numericValue > maxValue) {
           return strings.DynamicFormNumberValueMustBeLowerThan.replace(
             "{0}",
-            maxValueCur ?? maxValue.toString()
+            maxValueCur ?? maxValue.toString(),
           );
         }
       }
@@ -979,7 +982,7 @@ export class DynamicField extends React.Component<
 
   private MultiChoice_selection = (
     event: React.FormEvent<HTMLDivElement>,
-    item: IDropdownOption
+    item: IDropdownOption,
   ): void => {
     const { changedValue } = this.state;
 
@@ -996,8 +999,8 @@ export class DynamicField extends React.Component<
         selectedItemArr = !changedValue
           ? []
           : Array.isArray(changedValue)
-          ? [...changedValue]
-          : [changedValue];
+            ? [...changedValue]
+            : [changedValue];
       }
 
       if (item.selected) {
@@ -1013,7 +1016,7 @@ export class DynamicField extends React.Component<
       this.props.onChanged(
         this.props.columnInternalName,
         selectedItemArr,
-        true
+        true,
       );
     } catch (error) {
       console.log(`Error MultiChoice_selection`, error);
@@ -1021,7 +1024,7 @@ export class DynamicField extends React.Component<
   };
 
   private saveIntoSharePoint = async (
-    files: IFilePickerResult[]
+    files: IFilePickerResult[],
   ): Promise<void> => {
     const { columnInternalName, onChanged } = this.props;
 

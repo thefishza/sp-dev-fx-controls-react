@@ -1,7 +1,7 @@
-import { BaseComponentContext } from '@microsoft/sp-component-base';
+import { BaseComponentContext } from "@microsoft/sp-component-base";
 import { IDropdownOption } from "@fluentui/react/lib/Dropdown";
-import { IFilePickerResult } from '../../filePicker';
-export declare type DateFormat = 'DateTime' | 'DateOnly';
+import { IFilePickerResult } from "../../filePicker";
+export declare type DateFormat = "DateTime" | "DateOnly";
 export declare type FieldChangeAdditionalData = IFilePickerResult;
 export interface IDynamicFieldProps {
     context: BaseComponentContext;
@@ -35,6 +35,8 @@ export interface IDynamicFieldProps {
     subPropertyValues?: Record<string, any>;
     /** If validation raises an error message, it can be stored against the field here for display by DynamicField  */
     validationErrorMessage?: string;
+    /** Indicates if the save button has been clicked, used to trigger validation display */
+    isSaveButtonClicked?: boolean;
     /** Field Term Set ID, used in Taxonomy / Metadata fields */
     fieldTermSetId?: string;
     /** Field Anchor ID, used in Taxonomy / Metadata fields */

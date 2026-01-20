@@ -87,6 +87,7 @@ export class DynamicForm extends React.Component<
       validationErrors: {},
       hiddenByFormula: [],
       isValidationErrorDialogOpen: false,
+      isSaveButtonClicked: false,
     };
 
     // Get SPService Factory
@@ -97,7 +98,7 @@ export class DynamicForm extends React.Component<
     // Setup Formula Validation utils
     this._formulaEvaluation = new FormulaEvaluation(
       this.props.context,
-      this.props.webAbsoluteUrl
+      this.props.webAbsoluteUrl,
     );
 
     // Setup Custom Formatting utils
@@ -120,7 +121,7 @@ export class DynamicForm extends React.Component<
 
   public componentDidUpdate(
     prevProps: IDynamicFormProps,
-    prevState: IDynamicFormState
+    prevState: IDynamicFormState,
   ): void {
     if (!isEqual(prevProps, this.props)) {
       // Props have changed due to parent component or workbench config, reset state
@@ -146,7 +147,7 @@ export class DynamicForm extends React.Component<
           } else {
             this.performValidation();
           }
-        }
+        },
       );
     }
   }
@@ -171,7 +172,7 @@ export class DynamicForm extends React.Component<
       headerContent = this._customFormatter.renderCustomFormatContent(
         customFormatting.header,
         this.getFormValuesForValidation(),
-        true
+        true,
       ) as JSX.Element;
     }
 
@@ -197,7 +198,7 @@ export class DynamicForm extends React.Component<
       footerContent = this._customFormatter.renderCustomFormatContent(
         customFormatting.footer,
         this.getFormValuesForValidation(),
-        true
+        true,
       ) as JSX.Element;
     }
 
@@ -234,7 +235,7 @@ export class DynamicForm extends React.Component<
                 .filter(
                   (bs) =>
                     bs.fields.filter((bsf) => hiddenByFormula.indexOf(bsf) < 0)
-                      .length > 0
+                      .length > 0,
                 )
                 .map((section, i) => (
                   <>
@@ -246,8 +247,8 @@ export class DynamicForm extends React.Component<
                         <div key={f} className={styles.sectionFormField}>
                           {this.renderField(
                             fieldCollection.find(
-                              (fc) => fc.label === f
-                            ) as IDynamicFieldProps
+                              (fc) => fc.label === f,
+                            ) as IDynamicFieldProps,
                           )}
                         </div>
                       ))}
@@ -261,15 +262,20 @@ export class DynamicForm extends React.Component<
               fieldCollection.map((f, i) => this.renderField(f))}
             {footerContent}
             {!this.props.disabled && (
-              <Stack className={styles.buttons} horizontal tokens={stackTokens}>
+              <Stack
+                className={styles.buttons}
+                horizontal
+                tokens={stackTokens}
+                style={this.props.buttonContainerStyle}
+              >
                 <PrimaryButton
                   disabled={isSaving}
-                  text={strings.Save}
+                  text={this.props.saveButtonLabel || strings.Save}
                   onClick={() => this.onSubmitClick()}
                 />
                 <DefaultButton
                   disabled={isSaving}
-                  text={strings.Cancel}
+                  text={this.props.cancelButtonLabel || strings.Cancel}
                   onClick={this.props.onCancelled}
                 />
               </Stack>
@@ -325,7 +331,7 @@ export class DynamicForm extends React.Component<
       fieldOverrides &&
       Object.prototype.hasOwnProperty.call(
         fieldOverrides,
-        field.columnInternalName
+        field.columnInternalName,
       )
     ) {
       return fieldOverrides[field.columnInternalName]({
@@ -341,6 +347,7 @@ export class DynamicForm extends React.Component<
         {...field}
         disabled={field.disabled || isSaving}
         validationErrorMessage={validationErrorMessage}
+        isSaveButtonClicked={this.state.isSaveButtonClicked}
       />
     );
   };
@@ -364,6 +371,11 @@ export class DynamicForm extends React.Component<
       validationErrorDialogProps,
       returnListItemInstanceOnSubmit,
     } = this.props;
+
+    /* Triggers any validation to be shown */
+    this.setState({
+      isSaveButtonClicked: true,
+    });
 
     let contentTypeId = this.props.contentTypeId;
     if (this.state.contentTypeId !== undefined)
@@ -447,7 +459,7 @@ export class DynamicForm extends React.Component<
           this.state.validationFormulas,
           true,
           true,
-          this.state.hiddenByFormula
+          this.state.hiddenByFormula,
         )) as Record<string, string>;
         if (Object.keys(validationErrors).length > 0) {
           shouldBeReturnBack = true;
@@ -620,7 +632,7 @@ export class DynamicForm extends React.Component<
           if (onSubmitted) {
             onSubmitted(
               iur.data,
-              returnListItemInstanceOnSubmit !== false ? iur.item : undefined
+              returnListItemInstanceOnSubmit !== false ? iur.item : undefined,
             );
           }
         } catch (error) {
@@ -654,7 +666,7 @@ export class DynamicForm extends React.Component<
                 iar.data,
                 this.props.returnListItemInstanceOnSubmit !== false
                   ? iar.item
-                  : undefined
+                  : undefined,
               );
             }
           } catch (error) {
@@ -677,12 +689,11 @@ export class DynamicForm extends React.Component<
             objects[titleField] !== undefined && objects[titleField] !== ""
               ? (objects[titleField] as string).replace(
                   /["|*|:|<|>|?|/|\\||]/g,
-                  "_"
+                  "_",
                 ) // Replace not allowed chars in folder name
               : ""; // Empty string will be replaced by SPO with Folder Item ID
-          const newFolder = await library.rootFolder.addSubFolderUsingPath(
-            folderTitle
-          );
+          const newFolder =
+            await library.rootFolder.addSubFolderUsingPath(folderTitle);
           const fields = await newFolder.listItemAllFields();
           if (fields[idField]) {
             // Read the ID of the just created folder or Document Set
@@ -697,12 +708,12 @@ export class DynamicForm extends React.Component<
                 iur.data,
                 this.props.returnListItemInstanceOnSubmit !== false
                   ? iur.item
-                  : undefined
+                  : undefined,
               );
             }
           } else {
             throw new Error(
-              "Unable to read the ID of the just created folder or Document Set"
+              "Unable to read the ID of the just created folder or Document Set",
             );
           }
         } catch (error) {
@@ -755,13 +766,13 @@ export class DynamicForm extends React.Component<
           selectedFile.fileName !== ""
             ? (selectedFile.fileName as string).replace(
                 /["|*|:|<|>|?|/|\\||]/g,
-                "_"
+                "_",
               ) // Replace not allowed chars in folder name
             : ""; // Empty string will be replaced by SPO with Folder Item ID
 
         const fileCreatedResult = await library.rootFolder.files.addChunked(
           encodeURI(itemTitle),
-          await selectedFile.downloadFileContent()
+          await selectedFile.downloadFileContent(),
         );
         const fields = await fileCreatedResult.file.listItemAllFields();
 
@@ -776,12 +787,12 @@ export class DynamicForm extends React.Component<
           if (onSubmitted) {
             onSubmitted(
               iur.data,
-              returnListItemInstanceOnSubmit !== false ? iur.item : undefined
+              returnListItemInstanceOnSubmit !== false ? iur.item : undefined,
             );
           }
         } else {
           throw new Error(
-            "Unable to read the ID of the just created folder or Document Set"
+            "Unable to read the ID of the just created folder or Document Set",
           );
         }
       } catch (error) {
@@ -801,7 +812,7 @@ export class DynamicForm extends React.Component<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     newValue: any,
     validate: boolean,
-    additionalData?: FieldChangeAdditionalData
+    additionalData?: FieldChangeAdditionalData,
   ): Promise<void> => {
     const fieldCol = cloneDeep(this.state.fieldCollection || []);
     const field = fieldCol.filter((element, i) => {
@@ -891,7 +902,7 @@ export class DynamicForm extends React.Component<
       },
       () => {
         if (validate) this.performValidation();
-      }
+      },
     );
   };
 
@@ -918,7 +929,7 @@ export class DynamicForm extends React.Component<
           if (!skipFieldValueValidation && !fieldValidationDisabled)
             validationErrors = this.evaluateFieldValueFormulas(hiddenByFormula);
           this.setState({ hiddenByFormula, isSaving: false, validationErrors });
-        }
+        },
       );
     }
   };
@@ -927,19 +938,19 @@ export class DynamicForm extends React.Component<
   private evaluateColumnVisibilityFormulas = (): string[] => {
     return this.evaluateFormulas(
       this.state.clientValidationFormulas,
-      false
+      false,
     ) as string[];
   };
 
   /** Evaluates field validation formulas set in column settings and returns a Record of error messages */
   private evaluateFieldValueFormulas = (
-    hiddenFields: string[]
+    hiddenFields: string[],
   ): Record<string, string> => {
     return this.evaluateFormulas(
       this.state.validationFormulas,
       true,
       true,
-      hiddenFields
+      hiddenFields,
     ) as Record<string, string>;
   };
 
@@ -957,7 +968,7 @@ export class DynamicForm extends React.Component<
     >,
     returnMessages = true,
     requireValue: boolean = false,
-    ignoreFields: string[] = []
+    ignoreFields: string[] = [],
   ): string[] | Record<string, string> => {
     const { fieldCollection } = this.state;
     const results: Record<string, string> = {};
@@ -965,7 +976,7 @@ export class DynamicForm extends React.Component<
       const fieldName = Object.keys(formulas)[i];
       if (formulas[fieldName]) {
         const field = fieldCollection.find(
-          (f) => f.columnInternalName === fieldName
+          (f) => f.columnInternalName === fieldName,
         );
         if (!field) continue;
         if (ignoreFields.indexOf(fieldName) > -1) continue; // Skip fields that are being ignored (e.g. hidden by formula)
@@ -995,7 +1006,7 @@ export class DynamicForm extends React.Component<
    * @returns
    */
   private getFormValuesForValidation = (
-    fieldCollection?: IDynamicFieldProps[]
+    fieldCollection?: IDynamicFieldProps[],
   ): Context => {
     const { fieldCollection: fieldColFromState } = this.state;
     if (!fieldCollection) fieldCollection = fieldColFromState;
@@ -1058,7 +1069,7 @@ export class DynamicForm extends React.Component<
       // Fetch form rendering information from SharePoint
       const listInfo = await this._spService.getListFormRenderInfo(
         listId,
-        this.webURL
+        this.webURL,
       );
 
       // Fetch additional information about fields from SharePoint
@@ -1066,10 +1077,10 @@ export class DynamicForm extends React.Component<
       const additionalInfo =
         await this._spService.getAdditionalListFormFieldInfo(
           listId,
-          this.webURL
+          this.webURL,
         );
       const numberFields = additionalInfo.filter(
-        (f) => f.TypeAsString === "Number" || f.TypeAsString === "Currency"
+        (f) => f.TypeAsString === "Number" || f.TypeAsString === "Currency",
       );
 
       // Build a dictionary of validation formulas and messages
@@ -1098,15 +1109,21 @@ export class DynamicForm extends React.Component<
       // They are evaluated on the client side, and determine whether a field should be hidden or shown
       const clientValidationFormulas = listInfo.ClientForms.Edit[
         contentTypeName
-      ].reduce((prev, cur) => {
-        if (cur.ClientValidationFormula) {
-          prev[cur.InternalName] = {
-            ValidationFormula: cur.ClientValidationFormula,
-            ValidationMessage: cur.ClientValidationMessage,
-          };
-        }
-        return prev;
-      }, {} as Record<string, Pick<ISPField, "ValidationFormula" | "ValidationMessage">>);
+      ].reduce(
+        (prev, cur) => {
+          if (cur.ClientValidationFormula) {
+            prev[cur.InternalName] = {
+              ValidationFormula: cur.ClientValidationFormula,
+              ValidationMessage: cur.ClientValidationMessage,
+            };
+          }
+          return prev;
+        },
+        {} as Record<
+          string,
+          Pick<ISPField, "ValidationFormula" | "ValidationMessage">
+        >,
+      );
 
       // Custom Formatting
       let headerJSON: ICustomFormattingNode, footerJSON: ICustomFormattingNode;
@@ -1116,7 +1133,7 @@ export class DynamicForm extends React.Component<
         listInfo.ClientFormCustomFormatter[contentTypeId]
       ) {
         const customFormatInfo = JSON.parse(
-          listInfo.ClientFormCustomFormatter[contentTypeId]
+          listInfo.ClientFormCustomFormatter[contentTypeId],
         ) as ICustomFormatting;
 
         if (customFormatInfo.headerJSONFormatter) {
@@ -1143,7 +1160,7 @@ export class DynamicForm extends React.Component<
           .getById(listItemId)
           .get()
           .catch((err) =>
-            this.updateFormMessages(MessageBarType.error, err.message)
+            this.updateFormMessages(MessageBarType.error, err.message),
           );
 
         if (onListItemLoaded) {
@@ -1164,7 +1181,7 @@ export class DynamicForm extends React.Component<
         listId,
         listItemId,
         disabledFields,
-        customIcons
+        customIcons,
       );
 
       // Get installed languages for Currency fields
@@ -1188,12 +1205,12 @@ export class DynamicForm extends React.Component<
           installedLanguages,
           validationFormulas,
         },
-        () => this.performValidation(true)
+        () => this.performValidation(true),
       );
     } catch (error) {
       this.updateFormMessages(
         MessageBarType.error,
-        "An error occurred while loading: " + error.message
+        "An error occurred while loading: " + error.message,
       );
       console.error(`An error occurred while loading DynamicForm`, error);
       return null;
@@ -1220,7 +1237,7 @@ export class DynamicForm extends React.Component<
     listId: string,
     listItemId: number,
     disabledFields: string[],
-    customIcons: { [key: string]: string }
+    customIcons: { [key: string]: string },
   ): Promise<IDynamicFieldProps[]> {
     const tempFields: IDynamicFieldProps[] = [];
     let order: number = 0;
@@ -1296,7 +1313,7 @@ export class DynamicForm extends React.Component<
         }
         if (field.FieldType === "Number" || field.FieldType === "Currency") {
           const numberField = numberFields.find(
-            (f) => f.InternalName === field.InternalName
+            (f) => f.InternalName === field.InternalName,
           );
           if (numberField) {
             minValue = numberField.MinimumValue;
@@ -1318,7 +1335,7 @@ export class DynamicForm extends React.Component<
               listItemId,
               field.InternalName,
               lookupField,
-              this.webURL
+              this.webURL,
             );
             stringValue = value
               ?.map((dv) => dv.key + ";#" + dv.name)
@@ -1342,8 +1359,8 @@ export class DynamicForm extends React.Component<
                 listId,
                 listItemId,
                 field.InternalName,
-                this.webURL
-              )) + ""
+                this.webURL,
+              )) + "",
             );
             value = userEmails;
             stringValue = userEmails
@@ -1353,7 +1370,7 @@ export class DynamicForm extends React.Component<
               subPropertyValues.id = item[field.InternalName + "Id"];
             }
             subPropertyValues.title = userEmails?.map((dv) =>
-              dv.split("/").pop()
+              dv.split("/").pop(),
             )[0];
             subPropertyValues.email = userEmails[0];
           } else {
@@ -1367,7 +1384,7 @@ export class DynamicForm extends React.Component<
               listId,
               listItemId,
               field.InternalName,
-              this.webURL
+              this.webURL,
             );
             stringValue = value?.map((dv) => dv.split("/").pop()).join(";");
           } else {
@@ -1386,7 +1403,7 @@ export class DynamicForm extends React.Component<
                 listId,
                 listItemId,
                 field.InternalName,
-                this.webURL
+                this.webURL,
               );
             if (response) {
               selectedTags.push({
@@ -1556,7 +1573,7 @@ export class DynamicForm extends React.Component<
   }
 
   private uploadImage = async (
-    file: IFilePickerResult
+    file: IFilePickerResult,
   ): Promise<IUploadImageResult> => {
     const { listId, listItemId } = this.props;
     if (file.fileAbsoluteUrl) {
@@ -1574,7 +1591,7 @@ export class DynamicForm extends React.Component<
         file.fileName,
         buffer,
         undefined,
-        this.webURL
+        this.webURL,
       );
     }
   };

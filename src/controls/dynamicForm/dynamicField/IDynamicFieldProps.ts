@@ -1,8 +1,8 @@
-import { BaseComponentContext } from '@microsoft/sp-component-base';
+import { BaseComponentContext } from "@microsoft/sp-component-base";
 import { IDropdownOption } from "@fluentui/react/lib/Dropdown";
-import { IFilePickerResult } from '../../filePicker';
+import { IFilePickerResult } from "../../filePicker";
 
-export type DateFormat = 'DateTime' | 'DateOnly';
+export type DateFormat = "DateTime" | "DateOnly";
 export type FieldChangeAdditionalData = IFilePickerResult;
 
 export interface IDynamicFieldProps {
@@ -41,7 +41,7 @@ export interface IDynamicFieldProps {
     columnInternalName: string,
     newValue: any, // eslint-disable-line @typescript-eslint/no-explicit-any
     validate: boolean,
-    additionalData?: FieldChangeAdditionalData
+    additionalData?: FieldChangeAdditionalData,
   ) => void; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /** Represents the value of the field as updated by the user. Only updated by fields when changed. */
@@ -55,6 +55,9 @@ export interface IDynamicFieldProps {
 
   /** If validation raises an error message, it can be stored against the field here for display by DynamicField  */
   validationErrorMessage?: string;
+
+  /** Indicates if the save button has been clicked, used to trigger validation display */
+  isSaveButtonClicked?: boolean;
 
   /** Field Term Set ID, used in Taxonomy / Metadata fields */
   fieldTermSetId?: string;

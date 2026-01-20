@@ -592,7 +592,7 @@ export default class ControlsTest extends React.Component<
     const restApi = `${this.props.context.pageContext.web.absoluteUrl}/_api/web/GetFolderByServerRelativeUrl('Shared%20Documents')/files?$expand=ListItemAllFields`;
     const response = await this.props.context.spHttpClient.get(
       restApi,
-      SPHttpClient.configurations.v1
+      SPHttpClient.configurations.v1,
     );
     const items = await response.json();
 
@@ -600,7 +600,7 @@ export default class ControlsTest extends React.Component<
       items: items.value ? items.value : [],
       termStoreInfo: await this.spTaxonomyService.getTermStoreInfo(),
       termSetInfo: await this.spTaxonomyService.getTermSetInfo(
-        Guid.parse("4bc86596-7caf-4e70-80c9-d9769e448988")
+        Guid.parse("4bc86596-7caf-4e70-80c9-d9769e448988"),
       ),
     });
 
@@ -840,7 +840,7 @@ export default class ControlsTest extends React.Component<
   private _onRenderGridItem = (
     item: any,
     _finalSize: ISize,
-    isCompact: boolean
+    isCompact: boolean,
   ): JSX.Element => {
     const previewProps: IDocumentCardPreviewProps = {
       previewImages: [
@@ -1241,7 +1241,7 @@ export default class ControlsTest extends React.Component<
                     hidden: true,
                     actionCallback: async (
                       taxService: SPTermStorePickerService,
-                      term: ITerm
+                      term: ITerm,
                     ) => {
                       // const labels = await taxService.getTermLabels(term.Id);
                       // if (labels) {
@@ -1316,7 +1316,7 @@ export default class ControlsTest extends React.Component<
                     hidden: true,
                     actionCallback: async (
                       taxService: SPTermStorePickerService,
-                      term: ITerm
+                      term: ITerm,
                     ) => {
                       console.log(term.Name, term.TermsCount);
                       return {
@@ -1334,7 +1334,7 @@ export default class ControlsTest extends React.Component<
                     hidden: true,
                     actionCallback: async (
                       taxService: SPTermStorePickerService,
-                      term: ITerm
+                      term: ITerm,
                     ) => {
                       return {
                         updateActionType: UpdateType.hideTerm,
@@ -1355,7 +1355,7 @@ export default class ControlsTest extends React.Component<
                     hidden: true,
                     actionCallback: async (
                       taxService: SPTermStorePickerService,
-                      term: ITerm
+                      term: ITerm,
                     ) => {
                       return {
                         updateActionType: UpdateType.disableTerm,
@@ -1374,7 +1374,7 @@ export default class ControlsTest extends React.Component<
                     hidden: true,
                     actionCallback: async (
                       taxService: SPTermStorePickerService,
-                      term: ITerm
+                      term: ITerm,
                     ) => {
                       if (term.TermsCount > 0) {
                         return {
@@ -1608,7 +1608,7 @@ export default class ControlsTest extends React.Component<
             ]}
             resultFilter={(result: IPersonaProps[]) => {
               return result.filter(
-                (p) => p["loginName"].indexOf(".com") !== -1
+                (p) => p["loginName"].indexOf(".com") !== -1,
               );
             }}
             onChange={this._getPeoplePickerItems}
@@ -2459,7 +2459,7 @@ export default class ControlsTest extends React.Component<
             onRenderGridItem={(
               item: any,
               finalSize: ISize,
-              isCompact: boolean
+              isCompact: boolean,
             ) => this._onRenderGridItem(item, finalSize, isCompact)}
           />
         </div>
@@ -2924,7 +2924,7 @@ export default class ControlsTest extends React.Component<
             label="Location"
             onChange={(locValue: ILocationPickerItem) => {
               console.log(
-                locValue.DisplayName + ", " + locValue.Address.Street
+                locValue.DisplayName + ", " + locValue.Address.Street,
               );
             }}
           ></LocationPicker>
@@ -3206,13 +3206,13 @@ export default class ControlsTest extends React.Component<
             onInvokeAction={(action) => alert(JSON.stringify(action))}
             onError={(error) => console.log(error.message)}
             onSetCustomElements={(
-              registry: CardObjectRegistry<CardElement>
+              registry: CardObjectRegistry<CardElement>,
             ) => {}}
             onSetCustomActions={(registry: CardObjectRegistry<Action>) => {}}
             onUpdateHostCapabilities={(hostCapabilities: HostCapabilities) => {
               hostCapabilities.setCustomProperty(
                 "CustomPropertyName",
-                Date.now
+                Date.now,
               );
             }}
             context={this.props.context}

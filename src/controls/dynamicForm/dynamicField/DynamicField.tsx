@@ -128,12 +128,15 @@ export class DynamicField extends React.Component<
         {label}
       </label>
     );
-    const errorText = this.props.isSaveButtonClicked
-      ? this.props.validationErrorMessage || this.getRequiredErrorText()
-      : "";
-    const errorTextEl = this.props.isSaveButtonClicked ? (
-      <text className={styles.errormessage}>{errorText}</text>
-    ) : null;
+    const errorText =
+      this.props.isSaveButtonClicked && !this.props.hideValidationErrorMessages
+        ? this.props.validationErrorMessage || this.getRequiredErrorText()
+        : "";
+    const errorTextEl =
+      this.props.isSaveButtonClicked &&
+      !this.props.hideValidationErrorMessages ? (
+        <text className={styles.errormessage}>{errorText}</text>
+      ) : null;
     const descriptionEl = (
       <text className={styles.fieldDescription}>{description}</text>
     );
@@ -384,7 +387,11 @@ export class DynamicField extends React.Component<
         );
 
       case "Number": {
-        const customNumberErrorMessage = this.getNumberErrorText();
+        const customNumberErrorMessage =
+          this.props.isSaveButtonClicked &&
+          !this.props.hideValidationErrorMessages
+            ? this.getNumberErrorText()
+            : "";
 
         return (
           <div>
@@ -415,9 +422,11 @@ export class DynamicField extends React.Component<
         );
       }
       case "Currency": {
-        const customNumberErrorMessage = this.props.isSaveButtonClicked
-          ? this.getNumberErrorText()
-          : "";
+        const customNumberErrorMessage =
+          this.props.isSaveButtonClicked &&
+          !this.props.hideValidationErrorMessages
+            ? this.getNumberErrorText()
+            : "";
 
         return (
           <div>

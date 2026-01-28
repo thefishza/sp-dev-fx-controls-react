@@ -59,6 +59,9 @@ export interface IDynamicFieldProps {
   /** Indicates if the save button has been clicked, used to trigger validation display */
   isSaveButtonClicked?: boolean;
 
+  /** Show validation error messages. Default - false */
+  hideValidationErrorMessages?: boolean;
+
   /** Field Term Set ID, used in Taxonomy / Metadata fields */
   fieldTermSetId?: string;
 

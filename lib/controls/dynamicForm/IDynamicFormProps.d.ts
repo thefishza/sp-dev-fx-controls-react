@@ -123,5 +123,10 @@ export interface IDynamicFormProps {
      * This label will be used on the cancel button of the form.
      */
     cancelButtonLabel?: string;
+    /**
+     * Show validation error messages. Default - false
+     *
+     */
+    hideValidationErrorMessages?: boolean;
 }
 //# sourceMappingURL=IDynamicFormProps.d.ts.map

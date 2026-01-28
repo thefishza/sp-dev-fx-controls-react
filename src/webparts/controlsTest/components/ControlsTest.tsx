@@ -1072,7 +1072,11 @@ export default class ControlsTest extends React.Component<
               listItemId={dynamicFormListItemId}
               validationErrorDialogProps={
                 this.props.dynamicFormErrorDialogEnabled
-                  ? { showDialogOnValidationError: true }
+                  ? {
+                      showDialogOnValidationError: true,
+                      dialogType: DialogType.largeHeader,
+                      dialogStyles: { main: { maxWidth: 450 } },
+                    }
                   : undefined
               }
               returnListItemInstanceOnSubmit={true}
@@ -1090,6 +1094,7 @@ export default class ControlsTest extends React.Component<
               useCustomFormatting={
                 this.props.dynamicFormCustomFormattingEnabled
               }
+              hideValidationErrorMessages={true}
               enableFileSelection={this.props.dynamicFormFileSelectionEnabled}
               customIcons={dynamicFormCustomTitleIcon}
             />

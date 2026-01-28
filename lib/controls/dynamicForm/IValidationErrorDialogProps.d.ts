@@ -1,3 +1,4 @@
+import { DialogType, IDialogStyles } from "@fluentui/react";
 export interface IValidationErrorDialogProps {
     /**
      * Specifies if a dialog should be shown when validation fails. Default - false
@@ -11,5 +12,13 @@ export interface IValidationErrorDialogProps {
      * Specifies a custom message to be shown in the validation dialog. Default - empty
      */
     customMessage?: string;
+    /**
+     * Specifies the dialog type. Default - DialogType.normal
+     */
+    dialogType?: DialogType;
+    /**
+     * Specifies custom styles for the validation error dialog
+     */
+    dialogStyles?: Partial<IDialogStyles>;
 }
 //# sourceMappingURL=IValidationErrorDialogProps.d.ts.map

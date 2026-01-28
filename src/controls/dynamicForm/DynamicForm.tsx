@@ -286,15 +286,16 @@ export class DynamicForm extends React.Component<
           hidden={!this.state.isValidationErrorDialogOpen}
           onDismiss={this.closeValidationErrorDialog}
           dialogContentProps={{
-            type: DialogType.normal,
+            type:
+              this.props.validationErrorDialogProps?.dialogType ||
+              DialogType.normal,
             title: this.getValidationErrorTitle(),
             showCloseButton: true,
           }}
           modalProps={{
-            className: styles.validationErrorDialog,
             isBlocking: true,
-            containerClassName: "ms-dialogMainOverride",
           }}
+          styles={this.props.validationErrorDialogProps?.dialogStyles || {}}
         >
           {this.getValidationErrorMessage()}
           <DialogFooter className={styles.actions}>
@@ -348,6 +349,7 @@ export class DynamicForm extends React.Component<
         disabled={field.disabled || isSaving}
         validationErrorMessage={validationErrorMessage}
         isSaveButtonClicked={this.state.isSaveButtonClicked}
+        hideValidationErrorMessages={this.props.hideValidationErrorMessages}
       />
     );
   };

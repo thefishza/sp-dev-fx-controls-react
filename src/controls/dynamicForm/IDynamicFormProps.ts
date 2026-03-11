@@ -124,6 +124,17 @@ export interface IDynamicFormProps {
   customIcons?: { [columnInternalName: string]: string };
 
   /**
+   * Options for field description display
+   * This option allows to configure the display of field descriptions. You can choose to disable descriptions or set their position to be either on top or at the bottom of the field.
+   * Default - { position: "bottom", disabled: false }
+   */
+
+  fieldDescriptionOptions?: {
+    disabled?: boolean;
+    position: "top" | "bottom";
+  };
+
+  /**
    * Custom styles for the button container
    * This style will be applied to the container that holds the Save and Cancel buttons.
    */

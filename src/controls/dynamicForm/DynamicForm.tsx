@@ -350,6 +350,7 @@ export class DynamicForm extends React.Component<
         validationErrorMessage={validationErrorMessage}
         isSaveButtonClicked={this.state.isSaveButtonClicked}
         hideValidationErrorMessages={this.props.hideValidationErrorMessages}
+        fieldDescriptionOptions={this.props.fieldDescriptionOptions}
       />
     );
   };

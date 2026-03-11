@@ -1,26 +1,29 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
+import * as React from "react";
+import * as ReactDom from "react-dom";
 
-import * as strings from 'ControlsTestWebPartStrings';
+import * as strings from "ControlsTestWebPartStrings";
 
 import {
   IReadonlyTheme,
   ThemeChangedEventArgs,
   ThemeProvider,
-} from '@microsoft/sp-component-base';
-import { Version } from '@microsoft/sp-core-library';
+} from "@microsoft/sp-component-base";
+import { Version } from "@microsoft/sp-core-library";
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField, 
-  PropertyPaneToggle
-} from '@microsoft/sp-property-pane';
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+  PropertyPaneTextField,
+  PropertyPaneToggle,
+} from "@microsoft/sp-property-pane";
+import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 
-import ControlsTest from './components/ControlsTest';
-import { IControlsTestProps } from './components/IControlsTestProps';
-import { ControlVisibility, IControlsTestWebPartProps } from './IControlsTestWebPartProps';
-import { PropertyPaneListPicker } from './propertyPane/PropertyPaneListPicker';
-import { PropertyPaneControlToggles } from './propertyPane/PropertyPaneControlToggles';
+import ControlsTest from "./components/ControlsTest";
+import { IControlsTestProps } from "./components/IControlsTestProps";
+import {
+  ControlVisibility,
+  IControlsTestWebPartProps,
+} from "./IControlsTestWebPartProps";
+import { PropertyPaneListPicker } from "./propertyPane/PropertyPaneListPicker";
+import { PropertyPaneControlToggles } from "./propertyPane/PropertyPaneControlToggles";
 
 /**
  * Web part to test the React controls
@@ -30,17 +33,15 @@ export default class ControlsTestWebPart extends BaseClientSideWebPart<IControls
   private _themeVariant: IReadonlyTheme | undefined;
   private _containerWidth: number = 0;
   protected async onInit(): Promise<void> {
-
-
     this._themeProvider = this.context.serviceScope.consume(
-      ThemeProvider.serviceKey
+      ThemeProvider.serviceKey,
     );
     // If it exists, get the theme variant
     this._themeVariant = this._themeProvider.tryGetTheme();
     // Register a handler to be notified if the theme variant changes
     this._themeProvider.themeChangedEvent.add(
       this,
-      this._handleThemeChangedEvent
+      this._handleThemeChangedEvent,
     );
 
     if (this.context.sdks.microsoftTeams) {
@@ -48,7 +49,7 @@ export default class ControlsTestWebPart extends BaseClientSideWebPart<IControls
       const context = this.context.sdks.microsoftTeams!.context;
       this._applyTheme(context.theme || "default");
       this.context.sdks.microsoftTeams.teamsJs.registerOnThemeChangeHandler(
-        this._applyTheme
+        this._applyTheme,
       );
     }
     return Promise.resolve();
@@ -69,10 +70,10 @@ export default class ControlsTestWebPart extends BaseClientSideWebPart<IControls
   private _applyTheme = (theme: string): void => {
     this.context.domElement.setAttribute("data-theme", theme);
     document.body.setAttribute("data-theme", theme);
-  }
+  };
 
   public render(): void {
-     /*  const element: React.ReactElement<ITestControlProps> = React.createElement(
+    /*  const element: React.ReactElement<ITestControlProps> = React.createElement(
 
       TestControl,
        {
@@ -82,16 +83,15 @@ export default class ControlsTestWebPart extends BaseClientSideWebPart<IControls
        }
      ); */
 
-  let listItemId: number = Number(this.properties.dynamicFormListItemId);
-  if (listItemId < 1 || isNaN(listItemId)) {
-    listItemId = undefined;
-  }
-  console.log(listItemId);
+    let listItemId: number = Number(this.properties.dynamicFormListItemId);
+    if (listItemId < 1 || isNaN(listItemId)) {
+      listItemId = undefined;
+    }
+    console.log(listItemId);
 
-  const element: React.ReactElement<IControlsTestProps> = React.createElement(
-    ControlsTest,
+    const element: React.ReactElement<IControlsTestProps> = React.createElement(
+      ControlsTest,
       {
-
         themeVariant: this._themeVariant,
         context: this.context,
         controlVisibility: this.properties.controlVisibility,
@@ -100,11 +100,18 @@ export default class ControlsTestWebPart extends BaseClientSideWebPart<IControls
         displayMode: this.displayMode,
         dynamicFormListId: this.properties.dynamicFormListId,
         dynamicFormListItemId: listItemId?.toString() ?? undefined,
-        dynamicFormErrorDialogEnabled: this.properties.dynamicFormErrorDialogEnabled,
-        dynamicFormCustomFormattingEnabled: this.properties.dynamicFormCustomFormattingEnabled,
-        dynamicFormClientSideValidationEnabled: this.properties.dynamicFormClientSideValidationEnabled,
-        dynamicFormFieldValidationEnabled: this.properties.dynamicFormFieldValidationEnabled,
-        dynamicFormFileSelectionEnabled: this.properties.dynamicFormFileSelectionEnabled,
+        dynamicFormContentTypeId:
+          this.properties.dynamicFormContentTypeId ?? undefined,
+        dynamicFormErrorDialogEnabled:
+          this.properties.dynamicFormErrorDialogEnabled,
+        dynamicFormCustomFormattingEnabled:
+          this.properties.dynamicFormCustomFormattingEnabled,
+        dynamicFormClientSideValidationEnabled:
+          this.properties.dynamicFormClientSideValidationEnabled,
+        dynamicFormFieldValidationEnabled:
+          this.properties.dynamicFormFieldValidationEnabled,
+        dynamicFormFileSelectionEnabled:
+          this.properties.dynamicFormFileSelectionEnabled,
         onOpenPropertyPane: () => {
           this.context.propertyPane.open();
         },
@@ -114,20 +121,20 @@ export default class ControlsTestWebPart extends BaseClientSideWebPart<IControls
             this.context.propertyPane.refresh();
           }
         },
-        paginationTotalPages: this.properties.paginationTotalPages
-      }
+        paginationTotalPages: this.properties.paginationTotalPages,
+      },
     );
 
     ReactDom.render(element, this.domElement);
   }
 
   protected get dataVersion(): Version {
-    return Version.parse('1.0');
+    return Version.parse("1.0");
   }
 
   protected onAfterResize(newWidth: number): void {
-      this._containerWidth = newWidth;
-      this.render();
+    this._containerWidth = newWidth;
+    this.render();
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
@@ -135,66 +142,72 @@ export default class ControlsTestWebPart extends BaseClientSideWebPart<IControls
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: strings.PropertyPaneDescription,
           },
           groups: [
             {
               groupName: strings.ControlSettingsGroupName,
               groupFields: [
-                PropertyPaneTextField('title', {
-                  label: 'Web Part Title'
+                PropertyPaneTextField("title", {
+                  label: "Web Part Title",
                 }),
-                PropertyPaneTextField('paginationTotalPages', {
-                  label: 'Total pages in pagination'
+                PropertyPaneTextField("paginationTotalPages", {
+                  label: "Total pages in pagination",
                 }),
-                new PropertyPaneListPicker('dynamicFormListId', {
-                  label: 'List for Dynamic Form',
+                new PropertyPaneListPicker("dynamicFormListId", {
+                  label: "List for Dynamic Form",
                   wpContext: this.context,
                   selectedKey: this.properties.dynamicFormListId,
                   disabled: false,
-                  onPropertyChange: (propertyPath: string, newValue: string) => {
+                  onPropertyChange: (
+                    propertyPath: string,
+                    newValue: string,
+                  ) => {
                     this.properties.dynamicFormListId = newValue;
                     this.render();
                     this.context.propertyPane.refresh();
-                  }
+                  },
                 }),
-                PropertyPaneTextField('dynamicFormListItemId', {
-                  label: 'List Item ID for Dynamic Form',
+                PropertyPaneTextField("dynamicFormListItemId", {
+                  label: "List Item ID for Dynamic Form",
                 }),
-                PropertyPaneToggle('dynamicFormErrorDialogEnabled', {
-                  label: 'Dynamic Form Error Dialog'
+                PropertyPaneTextField("dynamicFormContentTypeId", {
+                  label: "Content Type ID for Dynamic Form",
                 }),
-                PropertyPaneToggle('dynamicFormCustomFormattingEnabled', {
-                  label: 'Dynamic Form Custom Formatting'
+                PropertyPaneToggle("dynamicFormErrorDialogEnabled", {
+                  label: "Dynamic Form Error Dialog",
                 }),
-                PropertyPaneToggle('dynamicFormClientSideValidationEnabled', {
-                  label: 'Dynamic Form Client Side Show/Hide Validation'
+                PropertyPaneToggle("dynamicFormCustomFormattingEnabled", {
+                  label: "Dynamic Form Custom Formatting",
                 }),
-                PropertyPaneToggle('dynamicFormFieldValidationEnabled', {
-                  label: 'Dynamic Form Field Validation'
+                PropertyPaneToggle("dynamicFormClientSideValidationEnabled", {
+                  label: "Dynamic Form Client Side Show/Hide Validation",
                 }),
-                PropertyPaneToggle('dynamicFormFileSelectionEnabled', {
-                  label: 'Dynamic Form File Selection'
+                PropertyPaneToggle("dynamicFormFieldValidationEnabled", {
+                  label: "Dynamic Form Field Validation",
                 }),
-              ]
+                PropertyPaneToggle("dynamicFormFileSelectionEnabled", {
+                  label: "Dynamic Form File Selection",
+                }),
+              ],
             },
             {
               groupName: strings.ControlsGroupName,
               groupFields: [
-                new PropertyPaneControlToggles('controlVisibility', {
+                new PropertyPaneControlToggles("controlVisibility", {
                   controlVisibility: this.properties.controlVisibility,
-                  label: 'Toggle controls',
+                  label: "Toggle controls",
                   onPropertyChange: (newValue: ControlVisibility) => {
                     this.properties.controlVisibility = newValue;
                     this.render();
                     this.context.propertyPane.refresh();
-                  }
-                })
-              ]
-            }
-          ]
-        }
-      ]
+                  },
+                }),
+              ],
+            },
+          ],
+        },
+      ],
     };
   }
 }

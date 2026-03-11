@@ -137,9 +137,11 @@ export class DynamicField extends React.Component<
       !this.props.hideValidationErrorMessages ? (
         <text className={styles.errormessage}>{errorText}</text>
       ) : null;
-    const descriptionEl = (
-      <text className={styles.fieldDescription}>{description}</text>
-    );
+    const descriptionEl =
+      this.props.fieldDescriptionOptions?.disabled === true ? null : (
+        <text className={styles.fieldDescription}>{description}</text>
+      );
+      const descriptionPosition = this.props.fieldDescriptionOptions?.position ?? "bottom";
     const hasImage = !!changedValue;
 
     const valueToDisplay = newValue !== undefined ? newValue : value;
@@ -167,6 +169,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+           {descriptionPosition === "top" && descriptionEl}
             <TextField
               defaultValue={defaultValue}
               value={valueToDisplay}
@@ -179,7 +182,7 @@ export class DynamicField extends React.Component<
               onBlur={this.onBlur}
               errorMessage={errorText}
             />
-            {descriptionEl}
+            {descriptionPosition === "bottom" && descriptionEl}
           </div>
         );
 
@@ -196,6 +199,7 @@ export class DynamicField extends React.Component<
                 />
                 {labelEl}
               </div>
+              {descriptionPosition === "top" && descriptionEl}
               <RichText
                 placeholder={placeholder}
                 value={noteValue}
@@ -206,7 +210,7 @@ export class DynamicField extends React.Component<
                 }}
                 isEditMode={!disabled}
               />
-              {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
               {errorTextEl}
             </div>
           );
@@ -220,6 +224,7 @@ export class DynamicField extends React.Component<
                 />
                 {labelEl}
               </div>
+              {descriptionPosition === "top" && descriptionEl}
               <TextField
                 defaultValue={defaultValue}
                 value={valueToDisplay}
@@ -233,7 +238,7 @@ export class DynamicField extends React.Component<
                 onBlur={this.onBlur}
                 errorMessage={errorText}
               />
-              {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
             </div>
           );
         }
@@ -242,7 +247,7 @@ export class DynamicField extends React.Component<
         return (
           <div className={styles.fieldContainer}>
             <div
-              className={`${styles.labelContainer} ${styles.titleContainer}`}
+              className={` ${styles.titleContainer}`}
             >
               <Icon
                 className={styles.fieldIcon}
@@ -250,6 +255,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+            {descriptionPosition === "top" && descriptionEl}
             <Dropdown
               {...dropdownOptions}
               defaultSelectedKey={valueToDisplay ? undefined : defaultValue}
@@ -264,7 +270,7 @@ export class DynamicField extends React.Component<
               onBlur={this.onBlur}
               errorMessage={errorText}
             />
-            {descriptionEl}
+            {descriptionPosition === "bottom" && descriptionEl}
           </div>
         );
 
@@ -272,7 +278,7 @@ export class DynamicField extends React.Component<
         return (
           <div className={styles.fieldContainer}>
             <div
-              className={`${styles.labelContainer} ${styles.titleContainer}`}
+              className={` ${styles.titleContainer}`}
             >
               <Icon
                 className={styles.fieldIcon}
@@ -280,6 +286,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <Dropdown
               {...dropdownOptions}
               defaultSelectedKeys={valueToDisplay ? undefined : defaultValue}
@@ -289,7 +296,7 @@ export class DynamicField extends React.Component<
               onBlur={this.onBlur}
               errorMessage={errorText}
             />
-            {descriptionEl}
+            {descriptionPosition === "bottom" && descriptionEl}
           </div>
         );
 
@@ -297,7 +304,7 @@ export class DynamicField extends React.Component<
         return (
           <div className={styles.fieldContainer}>
             <div
-              className={`${styles.labelContainer} ${styles.titleContainer}`}
+              className={` ${styles.titleContainer}`}
             >
               <Icon
                 className={styles.fieldIcon}
@@ -305,6 +312,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <LocationPicker
               context={context}
               disabled={disabled}
@@ -317,7 +325,7 @@ export class DynamicField extends React.Component<
               }
               errorMessage={errorText}
             />
-            {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
           </div>
         );
 
@@ -334,6 +342,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+            {descriptionPosition === "top" && descriptionEl}
             <ListItemPicker
               disabled={disabled}
               listId={lookupListID}
@@ -349,7 +358,7 @@ export class DynamicField extends React.Component<
               context={context}
               orderBy={orderBy}
             />
-            {descriptionEl}
+            {descriptionPosition === "bottom" && descriptionEl}
             {errorTextEl}
           </div>
         );
@@ -367,6 +376,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+            {descriptionPosition === "top" && descriptionEl}
             <ListItemPicker
               disabled={disabled}
               listId={lookupListID}
@@ -381,7 +391,7 @@ export class DynamicField extends React.Component<
               }}
               context={context}
             />
-            {descriptionEl}
+            {descriptionPosition === "bottom" && descriptionEl}
             {errorTextEl}
           </div>
         );
@@ -402,6 +412,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <TextField
               defaultValue={defaultValue}
               value={valueToDisplay}
@@ -417,7 +428,7 @@ export class DynamicField extends React.Component<
               min={minimumValue}
               max={maximumValue}
             />
-            {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
           </div>
         );
       }
@@ -437,6 +448,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <TextField
               defaultValue={defaultValue}
               value={valueToDisplay}
@@ -452,7 +464,7 @@ export class DynamicField extends React.Component<
               min={minimumValue}
               max={maximumValue}
             />
-            {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
           </div>
         );
       }
@@ -466,6 +478,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             {dateFormat === "DateOnly" && (
               <DatePicker
                 placeholder={placeholder}
@@ -504,7 +517,7 @@ export class DynamicField extends React.Component<
                 firstDayOfWeek={firstDayOfWeek}
               />
             )}
-            {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
             {errorTextEl}
           </div>
         );
@@ -519,6 +532,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <Toggle
               className={styles.fieldDisplay}
               checked={
@@ -531,7 +545,7 @@ export class DynamicField extends React.Component<
               }}
               disabled={disabled}
             />
-            {descriptionEl}
+            {descriptionPosition === "bottom" && descriptionEl}
             {errorTextEl}
           </div>
         );
@@ -551,6 +565,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <PeoplePicker
               placeholder={placeholder}
               defaultSelectedUsers={userValue}
@@ -575,7 +590,7 @@ export class DynamicField extends React.Component<
               }}
               disabled={disabled}
             />
-            {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
             {errorTextEl}
           </div>
         );
@@ -591,6 +606,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <PeoplePicker
               placeholder={placeholder}
               defaultSelectedUsers={
@@ -617,7 +633,7 @@ export class DynamicField extends React.Component<
               }}
               disabled={disabled}
             />
-            {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
             {errorTextEl}
           </div>
         );
@@ -632,6 +648,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <Stack tokens={{ childrenGap: 4 }}>
               <TextField
                 defaultValue={defaultValue ? defaultValue.Url : ""}
@@ -655,7 +672,7 @@ export class DynamicField extends React.Component<
                 disabled={disabled}
               />
             </Stack>
-            {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
             {errorTextEl}
           </div>
         );
@@ -670,6 +687,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <Stack
               //className={styles.filePicker}
               horizontal
@@ -718,7 +736,7 @@ export class DynamicField extends React.Component<
                 )}
               </div>
             </Stack>
-            {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
             {errorTextEl}
           </div>
         );
@@ -733,6 +751,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <div className={styles.pickersContainer}>
               <TaxonomyPicker
                 label=""
@@ -752,7 +771,7 @@ export class DynamicField extends React.Component<
                 isTermSetSelectable={false}
               />
             </div>
-            {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
             {errorTextEl}
           </div>
         );
@@ -767,6 +786,7 @@ export class DynamicField extends React.Component<
               />
               {labelEl}
             </div>
+              {descriptionPosition === "top" && descriptionEl}
             <div className={styles.pickersContainer}>
               <TaxonomyPicker
                 label=""
@@ -786,7 +806,7 @@ export class DynamicField extends React.Component<
                 isTermSetSelectable={false}
               />
             </div>
-            {descriptionEl}
+              {descriptionPosition === "bottom" && descriptionEl}
             {errorTextEl}
           </div>
         );

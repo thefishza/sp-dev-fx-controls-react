@@ -1070,6 +1070,7 @@ export default class ControlsTest extends React.Component<
               context={this.props.context}
               listId={this.props.dynamicFormListId}
               listItemId={dynamicFormListItemId}
+              contentTypeId={this.props.dynamicFormContentTypeId}
               validationErrorDialogProps={
                 this.props.dynamicFormErrorDialogEnabled
                   ? {
@@ -1079,6 +1080,10 @@ export default class ControlsTest extends React.Component<
                     }
                   : undefined
               }
+              fieldDescriptionOptions={{
+                disabled: false,
+                position: "bottom",
+              }}
               returnListItemInstanceOnSubmit={true}
               onCancelled={() => {
                 console.log("Cancelled");

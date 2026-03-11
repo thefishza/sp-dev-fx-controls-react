@@ -39,6 +39,15 @@ export interface IDynamicFieldProps {
     isSaveButtonClicked?: boolean;
     /** Show validation error messages. Default - false */
     hideValidationErrorMessages?: boolean;
+    /**
+     * Options for field description display
+     * This option allows to configure the display of field descriptions. You can choose to disable descriptions or set their position to be either on top or at the bottom of the field.
+     * Default - { position: "bottom", disabled: false }
+     */
+    fieldDescriptionOptions?: {
+        disabled?: boolean;
+        position: "top" | "bottom";
+    };
     /** Field Term Set ID, used in Taxonomy / Metadata fields */
     fieldTermSetId?: string;
     /** Field Anchor ID, used in Taxonomy / Metadata fields */
